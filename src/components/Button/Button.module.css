@@ -1,0 +1,25 @@
+.button {
+    cursor: pointer;
+    color: white;
+    font-weight: 100;
+    width: max-content;
+    padding: 10px;
+    text-align: center;
+    padding-left: 30px;
+    padding-right: 30px;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+    background-color: deeppink;
+    box-shadow: 0px 8px rgb(179, 15, 61);
+    transition: all ease-in-out 0.1s;
+}
+
+.button:hover {
+    background-color: rgb(255, 97, 181);
+}
+
+.button:active {
+    transform: translateY(3px);
+    box-shadow: 0px 5px rgb(179, 15, 61);
+}
