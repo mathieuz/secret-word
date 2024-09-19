@@ -1,0 +1,25 @@
+.wordGuesserWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    width: min-content;
+    align-self: center;
+    background-color: #424242;
+}
+
+.letterSlot {
+    padding: 3px 10px;
+    background-color: whitesmoke;
+    border-radius: 8px;
+    color: #242424;
+    font-size: 25px;
+    margin-right: 4px;
+    text-align: center;
+}
+
+.letterSlot:last-child {
+    margin-right: auto;
+}
