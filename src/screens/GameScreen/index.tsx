@@ -18,6 +18,8 @@ const GameScreen: React.FC = () => {
 
     const [userInputValue, setUserInputValue] = useState<string>("");
     const [triedLetters, setTriedLetters] = useState<string[]>([]);
+    const [score, setScore] = useState<number>(0);
+    const [attempts, setAttempts] = useState<number>(3);
 
     const [guessedLetters, setGuessedLetters] = useState<boolean[]>(
         randomWordData.word.split("").map(() => { return false; })
@@ -50,12 +52,15 @@ const GameScreen: React.FC = () => {
             return updatedGuessedLetters;
         });
 
+        if (!randomWordData.word.includes(userInputValue)) {
+            setAttempts((prevAttempts) => prevAttempts - 1);
+        }
     };
 
     return (
         <div className={styles.container}>
             <div className={styles.column}>
-                <span className={styles.text}><b>Pontuação:</b> <span className={styles.score}>0</span></span>
+                <span className={styles.text}><b>Pontuação:</b> <span className={styles.score}>{score}</span></span>
             </div>
             <div className={styles.column}>
                 <h1 className={`${styles.title} ${styles.textAlignCenter}`}>Adivinhe a Palavra!</h1>    
@@ -63,7 +68,7 @@ const GameScreen: React.FC = () => {
             </div>
             <div className={styles.column}>
                 <WordGuesser word={randomWordData.word} guessedLetters={guessedLetters} />
-                <span className={`${styles.text} ${styles.textAlignCenter}`}>Você ainda tem: <span className={styles.attemptCount}>3 tentativas</span>.</span>
+                <span className={`${styles.text} ${styles.textAlignCenter}`}>Você ainda tem: <span className={styles.attemptCount}>{attempts} {attempts === 1 ? "tentativa" : "tentativas"}</span>.</span>
             </div>
             <div className={`${styles.column}`}>
                 <CardContainer>
