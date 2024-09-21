@@ -4,9 +4,10 @@ import styles from './WordGuesser.module.css';
 
 interface WordGuesserProps {
     word: string
+    guessedLetters: boolean[]
 };
 
-const WordGuesser: React.FC<WordGuesserProps> = ({ word }) => {
+const WordGuesser: React.FC<WordGuesserProps> = ({ word, guessedLetters }) => {
 
     const wordLetters: string[] = word.split("");
 
@@ -14,9 +15,9 @@ const WordGuesser: React.FC<WordGuesserProps> = ({ word }) => {
         <div className={styles.wordGuesserWrapper}>
             {wordLetters.map((letter, index) => { 
                 return (
-                    <span className={`${styles.letterSlot}`} 
+                    <span className={`${styles.letterSlot} ${guessedLetters[index] ? "" : styles.emptyLetterSlot}`} 
                           key={`wordLetters${letter + index}`}>
-                        {letter}
+                        {guessedLetters[index] ? letter : ""}
                     </span>
                 );
             })}
