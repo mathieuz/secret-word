@@ -1,5 +1,5 @@
 //Modules
-import React, { useState } from 'react';
+import React, { FormEvent, useState, useEffect } from 'react';
 import styles from './GameScreen.module.css';
 
 //Components
@@ -10,10 +10,30 @@ import LetterInputGuess from '../../components/LetterInputGuess';
 
 //Game Components
 import getRandomWordData from '../../game/logic/getRandomWordData';
+import { ISecretWord } from '../../game/secretWords';
 
 const GameScreen: React.FC = () => {
 
-    const [randomWordData, setRandomWordData] = useState(getRandomWordData());
+    const [randomWordData, setRandomWordData] = useState<ISecretWord>(getRandomWordData());
+    const [userInputValue, setUserInputValue] = useState<string>("");
+    const [triedLetters, setTriedLetters] = useState<string[]>([]);
+
+    function handleLetterInputGuessSubmit(e: FormEvent) {
+        e.preventDefault();
+
+        if (!userInputValue) {
+            return;
+        };
+
+        setTriedLetters((prevTriedLetters) => {
+            if (prevTriedLetters.includes(userInputValue)) {
+                return prevTriedLetters;
+            };
+
+            return [...prevTriedLetters, userInputValue];
+        });
+
+    };
 
     return (
         <div className={styles.container}>
@@ -30,24 +50,18 @@ const GameScreen: React.FC = () => {
             </div>
             <div className={`${styles.column}`}>
                 <CardContainer>
-                    <div className={`${styles.column}`}>
-                        <LetterInputGuess/>
-                    </div>
-                    <Button>Tentar Letra!</Button>
+                    <form onSubmit={(e) => { handleLetterInputGuessSubmit(e); }}>
+                        <div className={`${styles.column}`}>
+                            <LetterInputGuess setUserInputValue={setUserInputValue} name='letterInputGuess'/>
+                        </div>
+                        <Button isSubmit={true}>Tentar Letra!</Button>
+                    </form>
                 </CardContainer>
             </div>
             <div className={styles.column}>
                 <span className={`${styles.text} ${styles.textAlignCenter}`}>Letras tentadas:</span>
                 <div className={`${styles.text} ${styles.triedLettersContainer}`}>
-                    <span>A </span>
-                    <span>Z </span>
-                    <span>X </span>
-                    <span>W </span>
-                    <span>Q </span>
-                    <span>F </span>
-                    <span>P </span>
-                    <span>B </span>
-                    <span>C </span>
+                    {triedLetters.map((triedLetter, index) => <span key={`triedLetter${index}`}>{triedLetter} </span>)}
                 </div>
             </div>
         </div>
