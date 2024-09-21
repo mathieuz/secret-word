@@ -12,7 +12,14 @@ const WordGuesser: React.FC<WordGuesserProps> = ({ word }) => {
 
     return(
         <div className={styles.wordGuesserWrapper}>
-            {wordLetters.map((letter, index) => <span className={styles.letterSlot} key={`wordLetters${letter + index}`}>{letter}</span>)}
+            {wordLetters.map((letter, index) => { 
+                return (
+                    <span className={`${styles.letterSlot}`} 
+                          key={`wordLetters${letter + index}`}>
+                        {letter}
+                    </span>
+                );
+            })}
         </div>
     );
 };
