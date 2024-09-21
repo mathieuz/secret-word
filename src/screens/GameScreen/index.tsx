@@ -1,5 +1,5 @@
 //Modules
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './GameScreen.module.css';
 
 //Components
@@ -8,7 +8,13 @@ import CardContainer from '../../components/CardContainer';
 import Button from '../../components/Button';
 import LetterInputGuess from '../../components/LetterInputGuess';
 
+//Game Components
+import getRandomWordData from '../../game/logic/getRandomWordData';
+
 const GameScreen: React.FC = () => {
+
+    const [randomWordData, setRandomWordData] = useState(getRandomWordData());
+
     return (
         <div className={styles.container}>
             <div className={styles.column}>
@@ -16,10 +22,10 @@ const GameScreen: React.FC = () => {
             </div>
             <div className={styles.column}>
                 <h1 className={`${styles.title} ${styles.textAlignCenter}`}>Adivinhe a Palavra!</h1>    
-                <span className={`${styles.text} ${styles.textAlignCenter}`}>Dica sobre a palavra: <span className={styles.wordTip}>Linguagem de programação</span>.</span>
+                <span className={`${styles.text} ${styles.textAlignCenter}`}>Dica sobre a palavra: <span className={styles.wordTip}>{randomWordData.tip}</span>.</span>
             </div>
             <div className={styles.column}>
-                <WordGuesser/>
+                <WordGuesser word={randomWordData.word}/>
                 <span className={`${styles.text} ${styles.textAlignCenter}`}>Você ainda tem: <span className={styles.attemptCount}>3 tentativas</span>.</span>
             </div>
             <div className={`${styles.column}`}>
