@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './LetterInputGuess.module.css';
 
-const LetterInputGuess: React.FC = () => {
-    return <input className={styles.letterInputGuess} type="text" name="letterInputGuess" maxLength={1}/>
+interface LetterInputProps {
+    name: string
+    setUserInputValue: (userInputValue: string) => void
+};
+
+const LetterInputGuess: React.FC<LetterInputProps> = ({ name, setUserInputValue }) => {
+
+    const [inputValue, setInputValue] = useState("");
+
+    function handleInputValue(inputValue: string) {
+        inputValue = inputValue.toUpperCase();
+        const onlyCapitalizedLetterRegex = new RegExp(/[A-Z]/);
+
+        if (!onlyCapitalizedLetterRegex.test(inputValue)) {
+            setInputValue("");
+            setUserInputValue("");
+            return;
+        };
+
+        setInputValue(inputValue);
+        setUserInputValue(inputValue);
+    };
+
+    return <input value={inputValue} className={styles.letterInputGuess} type="text" name={name} autoComplete="off" maxLength={1} onChange={(e) => { handleInputValue(e.target.value) }}/>
 };
 
 export default LetterInputGuess;
