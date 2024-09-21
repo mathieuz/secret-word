@@ -1,5 +1,5 @@
 //Modules
-import React, { FormEvent, useState, useEffect } from 'react';
+import React, { FormEvent, useState } from 'react';
 import styles from './GameScreen.module.css';
 
 //Components
@@ -15,8 +15,13 @@ import { ISecretWord } from '../../game/secretWords';
 const GameScreen: React.FC = () => {
 
     const [randomWordData, setRandomWordData] = useState<ISecretWord>(getRandomWordData());
+
     const [userInputValue, setUserInputValue] = useState<string>("");
     const [triedLetters, setTriedLetters] = useState<string[]>([]);
+
+    const [guessedLetters, setGuessedLetters] = useState<boolean[]>(
+        randomWordData.word.split("").map(() => { return false; })
+    );
 
     function handleLetterInputGuessSubmit(e: FormEvent) {
         e.preventDefault();
@@ -33,6 +38,18 @@ const GameScreen: React.FC = () => {
             return [...prevTriedLetters, userInputValue];
         });
 
+        setGuessedLetters((prevGuessedLetters) => {
+            const updatedGuessedLetters = [...prevGuessedLetters];
+
+            randomWordData.word.split("").forEach((wordLetter, wordLetterIndex) => {
+                if (wordLetter === userInputValue) {
+                    updatedGuessedLetters[wordLetterIndex] = true;
+                };
+            });
+
+            return updatedGuessedLetters;
+        });
+
     };
 
     return (
@@ -45,7 +62,7 @@ const GameScreen: React.FC = () => {
                 <span className={`${styles.text} ${styles.textAlignCenter}`}>Dica sobre a palavra: <span className={styles.wordTip}>{randomWordData.tip}</span>.</span>
             </div>
             <div className={styles.column}>
-                <WordGuesser word={randomWordData.word}/>
+                <WordGuesser word={randomWordData.word} guessedLetters={guessedLetters} />
                 <span className={`${styles.text} ${styles.textAlignCenter}`}>Você ainda tem: <span className={styles.attemptCount}>3 tentativas</span>.</span>
             </div>
             <div className={`${styles.column}`}>
