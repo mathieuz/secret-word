@@ -12,6 +12,9 @@ const GameScreen: React.FC = () => {
     return (
         <div className={styles.container}>
             <div className={styles.column}>
+                <span className={styles.text}><b>Pontuação:</b> <span className={styles.score}>0</span></span>
+            </div>
+            <div className={styles.column}>
                 <h1 className={`${styles.title} ${styles.textAlignCenter}`}>Adivinhe a Palavra!</h1>    
                 <span className={`${styles.text} ${styles.textAlignCenter}`}>Dica sobre a palavra: <span className={styles.wordTip}>Linguagem de programação</span>.</span>
             </div>
