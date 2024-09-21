@@ -11,20 +11,20 @@ const LetterInputGuess: React.FC<LetterInputProps> = ({ name, setUserInputValue 
     const [inputValue, setInputValue] = useState("");
 
     function handleInputValue(inputValue: string) {
-        inputValue = inputValue.toUpperCase();
+        const uppercasedInputValue = inputValue.toUpperCase();
         const onlyCapitalizedLetterRegex = new RegExp(/[A-Z]/);
 
-        if (!onlyCapitalizedLetterRegex.test(inputValue)) {
+        if (!onlyCapitalizedLetterRegex.test(uppercasedInputValue)) {
             setInputValue("");
             setUserInputValue("");
             return;
         };
 
-        setInputValue(inputValue);
-        setUserInputValue(inputValue);
+        setInputValue(uppercasedInputValue);
+        setUserInputValue(uppercasedInputValue);
     };
 
-    return <input value={inputValue} className={styles.letterInputGuess} type="text" name={name} autoComplete="off" maxLength={1} onChange={(e) => { handleInputValue(e.target.value) }}/>
+    return <input value={inputValue} className={styles.letterInputGuess} type="text" name={name} autoComplete="off" maxLength={1} onChange={(e) => { handleInputValue(e.target.value); }}/>
 };
 
 export default LetterInputGuess;
