@@ -10,7 +10,7 @@ import Screen from "../../enums/Screen";
 
 interface StartGameScreenProps {
     setCurrentScreen: (screen: Screen) => void
-}
+};
 
 const StartGameScreen: React.FC<StartGameScreenProps> = ({ setCurrentScreen }) => {
     return (
