@@ -18,9 +18,10 @@ import Screen from '../../enums/Screen';
 
 interface GameScreenProps {
     setCurrentScreen: (screen: Screen) => void
+    setFinalScore: (finalScore: number) => void
 };
 
-const GameScreen: React.FC<GameScreenProps> = ({ setCurrentScreen }) => {
+const GameScreen: React.FC<GameScreenProps> = ({ setCurrentScreen, setFinalScore }) => {
 
     const [randomWordData, setRandomWordData] = useState<ISecretWord>(getRandomWordData());
 
@@ -76,6 +77,7 @@ const GameScreen: React.FC<GameScreenProps> = ({ setCurrentScreen }) => {
     };
 
     if (attempts === -1) {
+        setFinalScore(score);
         setCurrentScreen(Screen.GameOverScreen);
     };
 
