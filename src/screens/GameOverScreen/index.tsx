@@ -10,17 +10,19 @@ import Screen from '../../enums/Screen';
 
 interface GameOverScreenProps {
     setCurrentScreen: (screen: Screen) => void
+    finalScore: number
+    setFinalScore: (finalScore: number) => void
 };
 
-const GameOverScreen: React.FC<GameOverScreenProps> = ({ setCurrentScreen }) => {
+const GameOverScreen: React.FC<GameOverScreenProps> = ({ setCurrentScreen, finalScore, setFinalScore }) => {
     return (
         <div className={styles.container}>
             <div className={styles.divBox}>
                 <h1 className={styles.gameOver}>Fim de Jogo!</h1>
-                <span>Sua pontuação final foi de <span className={styles.score}>0</span> pontos.</span>
+                <span>Sua pontuação final foi de <span className={styles.score}>{finalScore}</span> pontos.</span>
             </div>
 
-            <Button onClick={() => { setCurrentScreen(Screen.StartGameScreen) }}>Voltar para o começo</Button>
+            <Button onClick={() => { setFinalScore(0); setCurrentScreen(Screen.StartGameScreen); }}>Voltar para o começo</Button>
         </div>
     )
 };
