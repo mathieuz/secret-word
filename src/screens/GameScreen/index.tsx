@@ -10,9 +10,17 @@ import LetterInputGuess from '../../components/LetterInputGuess';
 
 //Game Components
 import getRandomWordData from '../../game/logic/getRandomWordData';
+import setFalseToGuessedLetters from '../../game/logic/setFalseToGuessedLetters';
 import { ISecretWord } from '../../game/secretWords';
 
-const GameScreen: React.FC = () => {
+//Enums
+import Screen from '../../enums/Screen';
+
+interface GameScreenProps {
+    setCurrentScreen: (screen: Screen) => void
+};
+
+const GameScreen: React.FC<GameScreenProps> = ({ setCurrentScreen }) => {
 
     const [randomWordData, setRandomWordData] = useState<ISecretWord>(getRandomWordData());
 
@@ -20,10 +28,7 @@ const GameScreen: React.FC = () => {
     const [triedLetters, setTriedLetters] = useState<string[]>([]);
     const [score, setScore] = useState<number>(0);
     const [attempts, setAttempts] = useState<number>(3);
-
-    const [guessedLetters, setGuessedLetters] = useState<boolean[]>(
-        randomWordData.word.split("").map(() => { return false; })
-    );
+    const [guessedLetters, setGuessedLetters] = useState<boolean[]>(setFalseToGuessedLetters(randomWordData.word));
 
     function handleLetterInputGuessSubmit(e: FormEvent) {
         e.preventDefault();
@@ -54,7 +59,24 @@ const GameScreen: React.FC = () => {
 
         if (!randomWordData.word.includes(userInputValue)) {
             setAttempts((prevAttempts) => prevAttempts - 1);
-        }
+        };
+    };
+ 
+    if (!guessedLetters.includes(false)) {
+        setScore((prevScore) => prevScore + 100);
+        setAttempts(3);
+        setTriedLetters([]);
+
+        setRandomWordData(() => {
+            const randomWordData: ISecretWord = getRandomWordData();
+            setGuessedLetters(setFalseToGuessedLetters(randomWordData.word));
+
+            return randomWordData;
+        });
+    };
+
+    if (attempts === -1) {
+        setCurrentScreen(Screen.GameOverScreen);
     };
 
     return (
